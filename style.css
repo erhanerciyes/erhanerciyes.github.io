@@ -51,7 +51,7 @@
 
 [data-theme="vice-city"] {
     --bg-color: #120024;
-    --vc-bg-img: url('assets/vc_bg.jpg'); 
+    --vc-bg-img: url('/assets/vc_bg.jpg'); 
     --main-bg: rgba(26, 0, 42, 0.88);
     --text-main: #00ffff;
     --text-muted: #ff77ff;
@@ -73,22 +73,23 @@
     --shock-btn-shadow: #4a001a;
 }
 
-/* --- BASE STYLES FIX FOR FULL BACKGROUND --- */
+/* --- BASE STYLES --- */
 * { box-sizing: border-box; transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease; }
 html, body { 
+    margin: 0; padding: 0; 
     background-color: var(--bg-color); 
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
     color: var(--text-main); 
-    margin: 0; padding: 0; 
     min-height: 100vh; width: 100vw; 
     overflow-x: hidden; 
 }
 
 [data-theme="vice-city"] body { 
-    background-image: var(--vc-bg-img); 
-    background-size: cover; 
-    background-position: center center; 
-    background-attachment: fixed; 
+    background-image: var(--vc-bg-img) !important; 
+    background-size: cover !important; 
+    background-position: center center !important; 
+    background-attachment: fixed !important; 
+    background-repeat: no-repeat !important;
 }
 
 .main-frame { 
@@ -109,7 +110,6 @@ html, body {
 .dashboard-title { margin: 0; font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 8px; text-transform: uppercase; }
 [data-theme="vice-city"] .dashboard-title { text-shadow: 0 0 6px #00ffff; }
 
-/* NAV MENU */
 .nav-menu { display: flex; gap: 10px; }
 .nav-btn { background: transparent; border: 1px solid var(--border-color); color: var(--text-main); padding: 6px 15px; border-radius: 6px; cursor: pointer; font-weight: 700; }
 .nav-btn:hover { background: var(--header-bg); }
@@ -121,7 +121,6 @@ html, body {
 .theme-btn.active { background: var(--link-color); color: #ffffff; }
 [data-theme="vice-city"] .theme-btn.active { color: #000000; font-weight: 700; box-shadow: 0 0 8px #ffff00; }
 
-/* --- DYNAMIC RENDER AREA --- */
 #page-content { flex-grow: 1; display: flex; flex-direction: column; width: 100%; }
 
 /* --- COMMON BOX STYLES --- */
@@ -134,9 +133,15 @@ h3 { background-color: var(--header-bg); color: var(--header-text); padding: 8px
 /* --- PROFILE COMPONENTS --- */
 .left-col { display: flex; flex-direction: column; gap: 0; }
 .profile-card { text-align: center; padding: 20px 10px; }
-.avatar-container { width: 130px; height: 130px; margin: 0 auto 10px; border: 3px solid var(--border-color); padding: 3px; background: var(--bg-color); border-radius: 50%; }
+.avatar-container { width: 130px; height: 130px; margin: 0 auto 10px; border: 3px solid var(--border-color); padding: 3px; background: var(--bg-color); border-radius: 50%; overflow: hidden;}
 [data-theme="vice-city"] .avatar-container { border-color: #00ffff; box-shadow: 0 0 10px #00ffff; }
-.avatar { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+
+/* CSS ILE PP YÖNETİMİ */
+.avatar { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block; }
+[data-theme="vice-city"] .avatar { 
+    content: url('/assets/pp_vice.jpg'); 
+}
+
 .name { margin: 10px 0 2px; font-size: 18px; font-weight: 700; }
 [data-theme="vice-city"] .name { text-shadow: 0 0 5px #00ffff; }
 .title { font-size: 11px; color: var(--text-muted); margin: 0 0 15px 0; text-transform: uppercase; font-weight: 600; }
@@ -150,7 +155,6 @@ h3 { background-color: var(--header-bg); color: var(--header-text); padding: 8px
 [data-theme="vice-city"] .social-btn { box-shadow: 0 0 3px #ff00ff; }
 [data-theme="vice-city"] .social-btn:hover { background: #ff00ff; color: #000000; box-shadow: 0 0 8px #00ffff; }
 
-/* ABOUT ME & EDU */
 .about-box .about-content { padding: 15px; font-size: 13px; line-height: 1.6; color: var(--text-main); }
 .education-box .timeline { padding: 12px; font-size: 12px; display: flex; flex-direction: column; gap: 12px; }
 .degree-item strong { display: block; font-size: 13px; color: var(--link-color); }
@@ -161,12 +165,10 @@ h3 { background-color: var(--header-bg); color: var(--header-text); padding: 8px
 .med-widgets-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 15px; margin-bottom: 15px; width: 100%; }
 .profile-widgets { grid-template-columns: 1fr 1fr; }
 
-/* Terminal */
 .terminal-content { background-color: var(--term-bg); color: var(--term-text); font-family: monospace; font-size: 12px; padding: 10px; height: 150px; overflow-y: hidden; display: flex; flex-direction: column; justify-content: flex-end; }
 .log-line { margin-bottom: 4px; opacity: 0.8; }
 .log-line:last-child { opacity: 1; font-weight: bold; }
 
-/* Inventory */
 .inventory-box .inv-items { padding: 10px; display: flex; flex-direction: column; gap: 10px; height: 150px; justify-content: center; }
 .inv-item { display: flex; flex-direction: column; gap: 4px; }
 .inv-label { display: flex; justify-content: space-between; font-size: 10px; font-weight: 700; color: var(--text-main); }
@@ -179,7 +181,6 @@ h3 { background-color: var(--header-bg); color: var(--header-text); padding: 8px
 .inv-fill.blood { background-color: #991b1b; } 
 [data-theme="vice-city"] .inv-fill.blood { background-color: #ff0055; box-shadow: 0 0 5px #ff0055; }
 
-/* Clock */
 .status-box .shift-content { padding: 10px; height: 150px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
 .timer-display { font-size: 34px; font-weight: 800; font-family: monospace; color: var(--link-color); letter-spacing: 1px; }
 [data-theme="vice-city"] .timer-display { text-shadow: 0 0 10px var(--link-color); }
@@ -192,16 +193,13 @@ h3 { background-color: var(--header-bg); color: var(--header-text); padding: 8px
 .ekg-monitor-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 12px; background-color: var(--ekg-bg); width: 100%; }
 .monitor-panel { border: 1px solid var(--border-color); border-radius: 8px; background-color: var(--card-bg); padding: 8px; display: flex; flex-direction: column; align-items: center; min-height: 160px; width: 100%; overflow: hidden; }
 [data-theme="vice-city"] .monitor-panel { border-width: 2px; }
-
 .monitor-panel canvas { background: transparent; background-image: linear-gradient(var(--ekg-grid) 1px, transparent 1px), linear-gradient(90deg, var(--ekg-grid) 1px, transparent 1px); background-size: 15px 15px; width: 100%; height: 80px; display: block; border-radius: 4px; margin-bottom: 10px; flex-shrink: 0; }
-
 .vitals-column { width: 100%; display: flex; flex-direction: row; justify-content: space-around; align-items: center; }
 .vital-item { display: flex; flex-direction: column; align-items: center; text-align: center; }
 .vital-label { font-size: 10px; color: var(--text-muted); font-weight: 700; letter-spacing: 0.5px; margin-bottom: 4px; }
 .vital-value { font-size: 15px; font-weight: 800; font-family: monospace; display: flex; align-items: center; color: var(--link-color); }
 @keyframes heartPulse { 0% { transform: scale(1); } 15% { transform: scale(1.2); } 30% { transform: scale(1); } 45% { transform: scale(1.2); } 60% { transform: scale(1); } }
 .pulse-icon { animation: heartPulse 1.2s infinite; font-size: 13px; margin-right: 4px; }
-
 
 /* --- DEFIBRILLATOR NEW PANEL --- */
 .defib-box { margin-top: 15px; }
