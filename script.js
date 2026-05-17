@@ -1,4 +1,4 @@
-
+// --- GLOBAL SPA MANAGER ---
 let activeIntervals = [];
 
 function clearEngineIntervals() {
@@ -11,29 +11,31 @@ function safeSetInterval(fn, time) {
     activeIntervals.push(id);
 }
 
-
+// Fetch routing ile sayfaları yükler
 async function loadPage(pageName, btnElement) {
     try {
         const response = await fetch(`${pageName}.html`);
-        if (!response.ok) throw new Error("Dosya bulunamadı. Lütfen Live Server kullanın.");
+        if (!response.ok) throw new Error("Dosya bulunamadı.");
         
         const html = await response.text();
         document.getElementById('page-content').innerHTML = html;
 
-        
+        // Nav Buton Aktiflik Durumu
         document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
         if(btnElement) btnElement.classList.add('active');
 
         clearEngineIntervals();
 
+        // Eğer Monitor sayfasına geçildiyse motoru başlat
         if (pageName === 'monitor') {
             initMonitorEngine();
         }
     } catch (error) {
-        document.getElementById('page-content').innerHTML = `<div style="padding: 20px; color: red;"><b>Hata:</b> HTML dosyalarını fetch edebilmek için sayfayı VSCode Live Server (veya benzeri bir HTTP sunucusu) üzerinden çalıştırmalısın. Çift tıklayarak (file://) açarsan CORS hatası alırsın.</div>`;
+        document.getElementById('page-content').innerHTML = `<div style="padding: 20px; color: red;"><b>Hata:</b> Sayfayı VSCode Live Server ile çalıştırmalısın.</div>`;
     }
 }
 
+// --- THEME & INITIALIZATION ---
 function setTheme(themeName) {
     document.documentElement.setAttribute('data-theme', themeName);
     localStorage.setItem('nurse_dashboard_theme', themeName);
@@ -42,17 +44,8 @@ function setTheme(themeName) {
     const activeBtn = document.getElementById(`btn-${themeName}`);
     if(activeBtn) activeBtn.classList.add('active');
 
-    const avatar = document.getElementById('avatar-img');
-    if(avatar) {
-        if(themeName === 'vice-city') {
-            avatar.src = "assets/pp_vice.jpg"; 
-        } else if(themeName === 'dark') {
-            avatar.src = "assets/pp.jpg";
-        } else {
-            avatar.src = "assets/pp.jpg"; 
-        }
-    }
-    
+    // NOT: Profil fotoğrafı manipülasyonu JS'den tamamen söküldü, CSS üzerinden yönetiliyor.
+
     if(document.getElementById('ekg-canvas-1')) {
         updateEKGColors();
     }
@@ -62,8 +55,14 @@ window.addEventListener('DOMContentLoaded', () => {
     const savedTheme = localStorage.getItem('nurse_dashboard_theme') || 'light';
     setTheme(savedTheme);
 
-    loadPage('profile', document.querySelector('.nav-menu .active'));
+    // İlk açılışta Profile sayfasını yükle
+    loadPage('profile', document.querySelector('.nav-btn'));
 });
+
+
+// ==========================================
+// --- MONITOR ENGINE (ONLY RUNS ON MONITOR) ---
+// ==========================================
 
 let monitorsConfig = [];
 let ekgState = 'normal'; 
@@ -88,6 +87,7 @@ function initMonitorEngine() {
     window.addEventListener('resize', resizeAllCanvases);
 }
 
+// 1. Terminal Logs
 function initTerminal() {
     const logMessages = [
         "> Bed 1 vitals stable.",
@@ -123,6 +123,7 @@ function initTerminal() {
     }, 4500);
 }
 
+// 2. Real Time Clock
 function initClock() {
     function updateMatrixClock() {
         const now = new Date();
@@ -136,6 +137,7 @@ function initClock() {
     safeSetInterval(updateMatrixClock, 1000);
 }
 
+// 3. Defib Controls (Exposed globally for HTML onclick)
 window.toggleDefibPower = function() {
     const isPowered = document.getElementById('power-switch').checked;
     const shockBtn = document.getElementById('shock-btn');
@@ -207,6 +209,7 @@ window.handleShock = function() {
     }, 3500);
 }
 
+// 4. EKG Rendering
 window.updateEKGColors = function() {
     const currentTheme = document.documentElement.getAttribute('data-theme');
     let themeColors = {
@@ -341,7 +344,7 @@ function initEKGCanvasEngine() {
     function drawAll() {
         if (!document.getElementById('ekg-canvas-1')) {
             cancelAnimationFrame(ekgAnimationId);
-            return;
+            return; 
         }
         drawMonitor('ekg-canvas-1', 0);
         drawMonitor('ekg-canvas-2', 1);
