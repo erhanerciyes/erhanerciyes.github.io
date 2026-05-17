@@ -47,7 +47,7 @@ function setTheme(themeName) {
         if(themeName === 'vice-city') {
             avatar.src = "assets/pp_vice.jpg"; 
         } else if(themeName === 'dark') {
-            avatar.src = "/assets/pp.jpg";
+            avatar.src = "assets/pp.jpg";
         } else {
             avatar.src = "assets/pp.jpg"; 
         }
