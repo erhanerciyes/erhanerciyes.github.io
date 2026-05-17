@@ -1,0 +1,148 @@
+<div class="main-dashboard monitor-layout">
+    <div class="med-widgets-grid">
+        
+        <div class="box terminal-box">
+            <h3><i class="fas fa-terminal"></i> System Logs</h3>
+            <div class="terminal-content" id="terminal-content">
+                <div class="log-line">> Monitor system connected.</div>
+                <div class="log-line">> Receiving live telemetry...</div>
+            </div>
+        </div>
+
+        <div class="box inventory-box">
+            <h3><i class="fas fa-vials"></i> Critical Inventory</h3>
+            <div class="inv-items">
+                <div class="inv-item">
+                    <div class="inv-label"><span>Epinephrine</span> <span>85%</span></div>
+                    <div class="inv-bar"><div class="inv-fill safe" style="width: 85%;"></div></div>
+                </div>
+                <div class="inv-item">
+                    <div class="inv-label"><span>Propofol</span> <span class="warn-text">20%</span></div>
+                    <div class="inv-bar"><div class="inv-fill warn" style="width: 20%;"></div></div>
+                </div>
+                <div class="inv-item">
+                    <div class="inv-label"><span>Morphine</span> <span>Locked</span></div>
+                    <div class="inv-bar"><div class="inv-fill locked" style="width: 100%;"></div></div>
+                </div>
+                <div class="inv-item">
+                    <div class="inv-label"><span>Blood Bank (O-)</span> <span>60%</span></div>
+                    <div class="inv-bar"><div class="inv-fill blood" style="width: 60%;"></div></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="box status-box">
+            <h3><i class="fas fa-clock"></i> Matrix Clock</h3>
+            <div class="shift-content">
+                <div class="timer-display" id="live-clock">00:00:00</div>
+                <div class="date-display" id="live-date">LOADING...</div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="box ekg-box">
+        <h3><i class="fas fa-tv"></i> Live System Rhythm: Multi-Patient Matrix</h3>
+        
+        <div class="ekg-monitor-row">
+            <div class="monitor-panel" id="monitor-1">
+                <canvas id="ekg-canvas-1"></canvas>
+                <div class="vitals-column">
+                    <div class="vital-item">
+                        <span class="vital-label">Bed 1 HR</span>
+                        <div class="vital-value" id="bpm-1"><i class="fas fa-heart pulse-icon"></i> 72</div>
+                    </div>
+                    <div class="vital-item">
+                        <span class="vital-label">NIBP</span>
+                        <div class="vital-value">120/80</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="monitor-panel" id="monitor-2">
+                <canvas id="ekg-canvas-2"></canvas>
+                <div class="vitals-column">
+                    <div class="vital-item">
+                        <span class="vital-label">Bed 2 HR</span>
+                        <div class="vital-value" id="bpm-2"><i class="fas fa-heart pulse-icon"></i> 68</div>
+                    </div>
+                    <div class="vital-item">
+                        <span class="vital-label">NIBP</span>
+                        <div class="vital-value">130/85</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="monitor-panel" id="monitor-3">
+                <canvas id="ekg-canvas-3"></canvas>
+                <div class="vitals-column">
+                    <div class="vital-item">
+                        <span class="vital-label">Trauma 1 HR</span>
+                        <div class="vital-value" id="bpm-3"><i class="fas fa-heart pulse-icon"></i> 75</div>
+                    </div>
+                    <div class="vital-item">
+                        <span class="vital-label">SpO2 (%)</span>
+                        <div class="vital-value">98%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="box defib-box">
+        <h3><i class="fas fa-bolt"></i> Defibrillator Control Unit</h3>
+        <div class="defib-layout">
+            
+            <div class="defib-screen-area">
+                <div class="digital-voltage-screen" id="digital-screen">
+                    <span class="energy-label">ENERGY SELECTED</span>
+                    <div class="energy-value"><span id="main-voltage-display">200</span><span class="unit">J</span></div>
+                    <div class="status-indicator" id="defib-status">READY</div>
+                </div>
+            </div>
+
+            <div class="defib-controls-area">
+                <div class="switch-grid">
+                    <div class="switch-container mini">
+                        <span class="switch-label">MAIN PWR</span>
+                        <label class="switch"><input type="checkbox" id="power-switch" checked onchange="toggleDefibPower()"><span class="slider"></span></label>
+                    </div>
+                    <div class="switch-container mini">
+                        <span class="switch-label">SYNC</span>
+                        <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                    </div>
+                    <div class="switch-container mini">
+                        <span class="switch-label">PACER</span>
+                        <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                    </div>
+                    <div class="switch-container mini">
+                        <span class="switch-label">ALARM</span>
+                        <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                    </div>
+                    <div class="switch-container mini">
+                        <span class="switch-label">OVRIDE</span>
+                        <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                    </div>
+                    <div class="switch-container mini">
+                        <span class="switch-label">AUTO</span>
+                        <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                    </div>
+                </div>
+
+                <div class="voltage-stepper">
+                    <button class="volt-btn" onclick="changeVoltage(-10)"><i class="fas fa-minus"></i></button>
+                    <span class="stepper-label">ADJUST JOULES</span>
+                    <button class="volt-btn" onclick="changeVoltage(10)"><i class="fas fa-plus"></i></button>
+                </div>
+            </div>
+
+            <div class="defib-action-area">
+                <button class="round-shock-btn" id="shock-btn" onclick="handleShock()">
+                    <i class="fas fa-bolt"></i>
+                    <span>SHOCK</span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
