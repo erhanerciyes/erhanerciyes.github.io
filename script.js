@@ -45,11 +45,11 @@ function setTheme(themeName) {
     const avatar = document.getElementById('avatar-img');
     if(avatar) {
         if(themeName === 'vice-city') {
-            avatar.src = "assets/pp_vice.png"; 
+            avatar.src = "assets/pp_vice.jpg"; 
         } else if(themeName === 'dark') {
-            avatar.src = "/assets/pp.png";
+            avatar.src = "/assets/pp.jpg";
         } else {
-            avatar.src = "assets/pp.png"; 
+            avatar.src = "assets/pp.jpg"; 
         }
     }
     
